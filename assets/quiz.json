@@ -1,0 +1,55 @@
+{
+  "status" : true ,
+  "msg" : "Fetch SuccessFull",
+  "data"  : [
+    {
+      "que" : "Opium is obtained from the dry latex from which part of the Papaver somniferum Plant?",
+      "opt1": "[A] Stem",
+      "opt2": "[B] Leaves",
+      "opt3": "[C] Poppy",
+      "opt4": "[D] Stem joints"
+    },
+    {
+      "que" : "Which among the following is the most important role played by Ribosome in the cells?",
+      "opt1": "[A] Synthesis of RNA ",
+      "opt2": "[B] Synthesis of DNA",
+      "opt3": "[C] Synthesis of Proteins",
+      "opt4": "[D] Metabolism of Carbohydrates"
+    },
+    {
+      "que" : "The web of the spider is made up of which among the following?",
+      "opt1": "[A] Carbohydrate Polymers",
+      "opt2": "[B] Proteins",
+      "opt3": "[C] Lipids",
+      "opt4": "[D] Polysaccharides"
+    },
+    {
+      "que" : "What is the main function of Lymphocytes?",
+      "opt1": "[A] Production of Antibodies",
+      "opt2": "[B] Production of Antigens",
+      "opt3": "[C] Production of White Blood Cells",
+      "opt4": "[D] All of the above"
+    },
+    {
+      "que" : "What is the main function of Lymphocytes?",
+      "opt1": "[A] Production of Antibodies",
+      "opt2": "[B] Production of Antigens",
+      "opt3": "[C] Production of White Blood Cells",
+      "opt4": "[D] All of the above"
+    },
+    {
+      "que" : "What is the main function of Lymphocytes?",
+      "opt1": "[A] Production of Antibodies",
+      "opt2": "[B] Production of Antigens",
+      "opt3": "[C] Production of White Blood Cells",
+      "opt4": "[D] All of the above"
+    },
+    {
+      "que" : "What is the main function of Lymphocytes?",
+      "opt1": "[A] Production of Antibodies",
+      "opt2": "[B] Production of Antigens",
+      "opt3": "[C] Production of White Blood Cells",
+      "opt4": "[D] All of the above"
+    }
+  ]
+}
