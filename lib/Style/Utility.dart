@@ -28,3 +28,18 @@ class Utility {
     }
   }
 }
+
+class LoadingIcon extends StatelessWidget {
+  const LoadingIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            )));
+  }
+}
