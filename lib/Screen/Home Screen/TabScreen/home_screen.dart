@@ -1,3 +1,4 @@
+import 'package:education/Screen/Course%20Screen/course_list_screen.dart';
 import 'package:education/Service/Api/api.dart';
 import 'package:education/Service/Model/main_category_model.dart';
 import 'package:education/Style/Utility.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _controller = CarouselController();
 
   //request
-  late Future<MainCategoryModel?> futureMainCategory;
+  late Future<CategoryModel?> futureMainCategory;
 
 
 
@@ -129,8 +130,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/courseListPage');
+                                  print(cat[index].id);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CourseListPage(
+                                    catId: cat[index].id,
+                                  )));
                                 },
                                 child: Container(
                                   child: Column(
@@ -144,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       Expanded(
                                           child: Text(
-                                        "${cat[index].maincategoryName}",
+                                        "${cat[index].title}",
                                       ))
                                     ],
                                   ),
