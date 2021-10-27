@@ -1,8 +1,8 @@
 import 'package:education/Provider/dark_mode_provider.dart';
 import 'package:education/Screen/Auth%20Screen/login_page.dart';
 import 'package:education/Screen/Connection/issue_connectivity.dart';
-import 'package:education/Screen/Course%20Screen/course_home_screen.dart';
-import 'package:education/Screen/Course%20Screen/course_question_screen.dart';
+import 'package:education/Screen/Course%20Screen/chapter_list_screen.dart';
+import 'package:education/Screen/Course%20Screen/question_screen.dart';
 import 'package:education/Screen/Course%20Screen/quiz_over.dart';
 import 'package:education/Screen/Pass%20Screen/pass_screen.dart';
 import 'package:education/Screen/Setting%20Screen/Tab/account_screen.dart';
@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screen/Auth Screen/otp_page.dart';
 import 'Screen/Auth Screen/sign_up_page.dart';
-import 'Screen/Course Screen/course_list_screen.dart';
+import 'Screen/Course Screen/class_list_screen.dart';
 import 'Screen/Home Screen/home_page.dart';
 import 'Screen/LeaderBoard Screen/leader_board_screen.dart';
 import 'Style/theme.dart';

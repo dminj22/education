@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        title: Text("Welcome"),
         actions: [
           IconButton(onPressed: (){}, icon: ImageIcon(AssetImage("images/icons/vuesax-bulk-notification.png"))),
           IconButton(onPressed: (){}, icon: ImageIcon(AssetImage("images/icons/vuesax-bulk-search-status-1.png")))

@@ -1,10 +1,9 @@
-import 'package:education/Screen/Course%20Screen/course_list_screen.dart';
+import 'package:education/Screen/Course%20Screen/class_list_screen.dart';
 import 'package:education/Service/Api/api.dart';
-import 'package:education/Service/Model/main_category_model.dart';
+
 import 'package:education/Style/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 
 import 'package:provider/provider.dart';
 
@@ -31,141 +30,111 @@ class _HomeScreenState extends State<HomeScreen> {
   int columnCount = 4;
   final CarouselController _controller = CarouselController();
 
-  //request
-  late Future<CategoryModel?> futureMainCategory;
-
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    futureMainCategory = mainCategory();
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: FutureBuilder(
-            future: Future.wait([futureMainCategory]),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                var cat = snapshot.data[0].data;
-                return Container(
-                  height: size.height,
-                  child: Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.bottomCenter,
+        body: Container(
+      height: size.height,
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              CarouselSlider(
+                items: imageSliders,
+                carouselController: _controller,
+                options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 3.0,
+                    viewportFraction: 1.0,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: imgList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: 5.0,
+                      height: 5.0,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : Colors.green)
+                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          Container(width: size.width / 2, child: Center(child: Divider())),
+          Card(
+            child: ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/leaderBoardPage');
+              },
+              leading:
+                  ImageIcon(AssetImage('images/icons/vuesax-bulk-book.png')),
+              title: Text("Leaderboard"),
+              subtitle: Text('Compete with other friends'),
+              trailing:
+                  ImageIcon(AssetImage("images/icons/vuesax-bulk-diagram.png")),
+            ),
+          ),
+          Container(width: size.width / 2, child: Center(child: Divider())),
+          GridView.count(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            crossAxisCount: columnCount,
+            children: List.generate(
+              title.length,
+              (int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CourseListPage()));
+                    },
+                    child: Container(
+                      child: Column(
                         children: [
-                          CarouselSlider(
-                            items: imageSliders,
-                            carouselController: _controller,
-                            options: CarouselOptions(
-                                autoPlay: true,
-                                enlargeCenterPage: true,
-                                aspectRatio: 3.0,
-                                viewportFraction: 1.0,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                }),
+                          Expanded(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: ImageIcon(AssetImage(
+                                  'images/icons/vuesax-bulk-note-2.png')),
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: imgList.asMap().entries.map((entry) {
-                              return GestureDetector(
-                                onTap: () =>
-                                    _controller.animateToPage(entry.key),
-                                child: Container(
-                                  width: 5.0,
-                                  height: 5.0,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 4.0),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (Theme.of(context).brightness ==
-                                                  Brightness.dark
-                                              ? Colors.white
-                                              : Colors.green)
-                                          .withOpacity(_current == entry.key
-                                              ? 0.9
-                                              : 0.4)),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                          Expanded(
+                              child: Text(
+                            "${title[index]}",
+                          ))
                         ],
                       ),
-                      Container(
-                          width: size.width / 2,
-                          child: Center(child: Divider())),
-                      Card(
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/leaderBoardPage');
-                          },
-                          leading: ImageIcon(
-                              AssetImage('images/icons/vuesax-bulk-book.png')),
-                          title: Text("Leaderboard"),
-                          subtitle: Text('Compete with other friends'),
-                          trailing: ImageIcon(AssetImage(
-                              "images/icons/vuesax-bulk-diagram.png")),
-                        ),
-                      ),
-                      Container(
-                          width: size.width / 2,
-                          child: Center(child: Divider())),
-                      GridView.count(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        crossAxisCount: columnCount,
-                        children: List.generate(
-                          cat.length,
-                          (int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  print(cat[index].id);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CourseListPage(
-                                    catId: cat[index].id,
-                                  )));
-                                },
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.white,
-                                          child: ImageIcon(AssetImage(
-                                              'images/icons/vuesax-bulk-note-2.png')),
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        "${cat[index].title}",
-                                      ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 );
-              } else if (snapshot.hasError) {
-                return Icon(Icons.error_outline);
-              } else {
-                return LoadingIcon();
-              }
-            }));
+              },
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 }
 

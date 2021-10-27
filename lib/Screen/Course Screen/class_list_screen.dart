@@ -1,17 +1,18 @@
+import 'package:education/Screen/Course%20Screen/subject_list_screen.dart';
 import 'package:education/Service/Api/api.dart';
 import 'package:flutter/material.dart';
 
 class CourseListPage extends StatefulWidget {
-  const CourseListPage({Key? key, this.catId}) : super(key: key);
-  final catId;
+  const CourseListPage({Key? key}) : super(key: key);
+
 
   @override
-  _CourseListPageState createState() => _CourseListPageState(catId);
+  _CourseListPageState createState() => _CourseListPageState();
 }
 
 class _CourseListPageState extends State<CourseListPage> {
-  _CourseListPageState(this.catId);
-  final catId;
+
+
   var title = [
     "11th Class",
     "12th Class",
@@ -24,9 +25,11 @@ class _CourseListPageState extends State<CourseListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Categories"),
+      ),
       body: FutureBuilder(
-          future: getClass(catId),
+          future: getClass(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var cName = snapshot.data.data;
@@ -45,12 +48,12 @@ class _CourseListPageState extends State<CourseListPage> {
                         (int index) {
                       return InkWell(
                         onTap: (){
-                          Navigator.pushNamed(context, '/courseHomePage');
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> SubjectListScreen(classId: cName[index].id,)));
                         },
                         child: Card(child: Container(
                           child: Column(children: [
                             Expanded(child: ImageIcon(AssetImage("images/icons/vuesax-bulk-book.png"), size: 50,)),
-                            Expanded(child: Center(child: Text(cName[index].className)))
+                            Expanded(child: Center(child: Text(cName[index].classesName)))
                           ],),
                         )),
                       );

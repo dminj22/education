@@ -20,6 +20,7 @@ class Styles {
       buttonTheme: Theme.of(context).buttonTheme.copyWith(
           colorScheme: isDarkTheme ? ColorScheme.dark() : ColorScheme.light()),
       appBarTheme: AppBarTheme(
+        titleTextStyle: isDarkTheme ? TextStyle(color: Colors.white) : TextStyle(color: Colors.black),
         backgroundColor: isDarkTheme ? Colors.black : Colors.white,
         iconTheme: IconThemeData(
           color: isDarkTheme ? Colors.white : Colors.lightGreen,
