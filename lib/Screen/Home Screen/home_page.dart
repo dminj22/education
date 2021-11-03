@@ -1,4 +1,5 @@
 import 'package:education/Provider/dark_mode_provider.dart';
+import 'package:education/Screen/Home%20Screen/TabScreen/doubts_screen.dart';
 import 'package:education/Screen/Home%20Screen/TabScreen/home_screen.dart';
 
 import 'package:education/Style/restart.dart';
@@ -30,10 +31,7 @@ class _HomePageState extends State<HomePage> {
       'Index 1: Business',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    DoubtsScreen(),
   ];
 
 
@@ -128,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(AssetImage("images/icons/vuesax-bulk-direct.png")),
-            label: 'School',
+            label: 'Doubts',
           ),
         ],
         currentIndex: _selectedIndex,

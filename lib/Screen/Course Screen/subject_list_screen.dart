@@ -28,19 +28,28 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
               return data.isEmpty ? Center(child: Text("No Subject"),):
                 ListView.builder(itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> CourseHomePage(subId: data[index].id,)));
-                      },
-                      title: Text(data[index].subjectName),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 4,
+                      child: ListTile(
+                        dense: true,
+
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> CourseHomePage(subId: data[index].id, subName: data[index].subjectName,)));
+                        },
+                        leading: ImageIcon(AssetImage("images/icons/vuesax-bulk-book.png"), size: 30,),
+                        title: Text(data[index].subjectName),
+                        subtitle: Text('Tap to see ${data[index].subjectName} topics'),
+                        trailing: Icon(Icons.arrow_forward),
+                      ),
                     ),
                   );
                 },);
             } else if (snapshot.hasError) {
               return Icon(Icons.error_outline);
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );

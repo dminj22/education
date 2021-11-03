@@ -38,33 +38,36 @@ class _CourseListPageState extends State<CourseListPage> {
                   padding:  EdgeInsets.all(8),
                   child: Text('For which exam you want to take test today?'),
                 )),
-                GridView.count(
-                  childAspectRatio: 1.5,
+                ListView.builder(
                   shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  crossAxisCount: columnCount,
-                  children: List.generate(
-                    cName.length,
-                        (int index) {
-                      return InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> SubjectListScreen(classId: cName[index].id,)));
-                        },
-                        child: Card(child: Container(
-                          child: Column(children: [
-                            Expanded(child: ImageIcon(AssetImage("images/icons/vuesax-bulk-book.png"), size: 50,)),
-                            Expanded(child: Center(child: Text(cName[index].classesName)))
-                          ],),
-                        )),
-                      );
-                    },
-                  ),
-                ),
+                      physics: ClampingScrollPhysics(),
+                      itemCount: cName.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> SubjectListScreen(classId: cName[index].id,)));
+                            },
+                            child: Card(
+                              elevation: 4,
+                              child: ListTile(
+                                dense: true,
+                                leading: ImageIcon(AssetImage("images/icons/vuesax-bulk-book.png"), size: 30,),
+                                title: Text("${cName[index].classesName}"),
+                                subtitle: Text("Tap to see ${cName[index].classesName} subjects"),
+                                trailing: Icon(Icons.arrow_forward),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
               ],);
             } else if (snapshot.hasError) {
               return Icon(Icons.error_outline);
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           })
     );

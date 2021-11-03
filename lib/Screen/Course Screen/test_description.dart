@@ -77,7 +77,7 @@ class _TestDescriptionPageState extends State<TestDescriptionPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CourseQuestionPage(testId: data[0].id, time:  20,)));
+                                          CourseQuestionPage(testId: data[0].id)));
                             },
                             child: Text("Begin"))
                       ],
