@@ -48,8 +48,9 @@ dependencies:
   google_sign_in: ^5.1.1
   flutter_facebook_auth: ^3.5.2
   expansion_tile_card: ^2.0.0
-
+  image_picker: ^0.8.4+4
   firebase_messaging: ^10.0.8
+  image_cropper: ^1.4.1
 
 
 

@@ -1,4 +1,5 @@
 import 'package:education/Provider/dark_mode_provider.dart';
+import 'package:education/Provider/user_provider.dart';
 import 'package:education/Screen/Home%20Screen/TabScreen/doubts_screen.dart';
 import 'package:education/Screen/Home%20Screen/TabScreen/home_screen.dart';
 
@@ -20,6 +21,11 @@ class _HomePageState extends State<HomePage> {
   setDarkMode(darkMode) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool('dark', darkMode);
+  }
+  logout(token, userId) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('token', token);
+    pref.setString('userId', userId);
   }
 
   int _selectedIndex = 0;
@@ -45,7 +51,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var dark = Provider.of<DarkModeProvider>(context);
+    var user = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
+    print(user.userId);
     return Scaffold(
       appBar: AppBar(
         title: Text("Welcome"),
@@ -107,6 +115,10 @@ class _HomePageState extends State<HomePage> {
                 title: "Terms & Conditions",
               ),
               EDDrawerListTile(
+                onTap: (){
+                  logout("", "");
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginPage', (route) => false);
+                },
                 leading: ImageIcon(AssetImage("images/icons/vuesax-bulk-lock.png")),
                 title: "Logout",
               ),

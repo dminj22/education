@@ -35,7 +35,9 @@ class _AllDoubtsScreenState extends State<AllDoubtsScreen> {
                 leading: Icon(Icons.thumb_up_alt_sharp),
                 title: SizedBox(height: 30,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.pushNamed(context, '/answerDoubtPage');
+                    },
                     child: TextField(
                       enabled: false,
                       decoration: InputDecoration(

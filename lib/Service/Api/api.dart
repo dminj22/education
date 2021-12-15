@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:education/Service/Model/QuestionModel.dart';
 import 'package:education/Service/Model/chapters_model.dart';
 import 'package:education/Service/Model/class_model.dart';
+import 'package:education/Service/Model/email_sign_up_model.dart';
 import 'package:education/Service/Model/subject_model.dart';
 import 'package:education/Service/Model/test_description_model.dart';
 
@@ -69,5 +70,43 @@ Future<QuestionModel?> getQueById(testId) async {
     return questionModelFromJson(json.encode(str));
   } else {
     return null;
+  }
+}
+
+Future<EmailSignUpModel?> emailSignUp(
+    firstName, lastName, mobile, email, password) async {
+  try {
+    final response = await dio.post("$url/user/signup", data: {
+      "firstname": "$firstName",
+      "lastname": "$lastName",
+      "mobile": "$mobile",
+      "email": "$email",
+      "password": "$password"
+    });
+    if (response.statusCode == 200) {
+      var str = response.data;
+      log.d(str);
+      return emailSignUpModelFromJson(json.encode(str));
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<EmailSignUpModel?> emailSignIn(email, password) async {
+  try {
+    final response = await dio.post("$url/user/login",
+        data: {"email": "$email", "password": "$password"});
+    if (response.statusCode == 200) {
+      var str = response.data;
+      log.d(str);
+      return emailSignUpModelFromJson(json.encode(str));
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print(e);
   }
 }

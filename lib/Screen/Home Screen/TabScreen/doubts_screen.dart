@@ -20,7 +20,9 @@ class _DoubtsScreenState extends State<DoubtsScreen> {
                 leading:Icon(Icons.person),
                 title: SizedBox(height: 30,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.pushNamed(context , '/createDoubtPage');
+                    },
                     child: TextField(
                       enabled: false,
                       decoration: InputDecoration(

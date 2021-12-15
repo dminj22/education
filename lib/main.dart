@@ -1,4 +1,6 @@
 import 'package:education/Provider/dark_mode_provider.dart';
+import 'package:education/Provider/user_provider.dart';
+import 'package:education/Screen/Auth%20Screen/email_auth_page.dart';
 import 'package:education/Screen/Auth%20Screen/login_page.dart';
 import 'package:education/Screen/Connection/issue_connectivity.dart';
 import 'package:education/Screen/Course%20Screen/chapter_list_screen.dart';
@@ -18,6 +20,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Screen/Auth Screen/otp_page.dart';
 import 'Screen/Auth Screen/sign_up_page.dart';
 import 'Screen/Course Screen/class_list_screen.dart';
+import 'Screen/Home Screen/TabScreen/doubts_tabbar/answer_doubt.dart';
+import 'Screen/Home Screen/TabScreen/doubts_tabbar/create_doubt.dart';
 import 'Screen/Home Screen/home_page.dart';
 import 'Screen/LeaderBoard Screen/leader_board_screen.dart';
 import 'Style/theme.dart';
@@ -91,7 +95,8 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DarkModeProvider())
+        ChangeNotifierProvider(create: (context) => DarkModeProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider())
       ],
       child: FutureBuilder(
           future: darkMode,
@@ -121,6 +126,9 @@ class _MyAppState extends State<MyApp> {
                   "/passPage": (context) => PassPage(),
                   "/settingPage": (context) => SettingPage(),
                   "/accountSettingPage": (context) => AccountSettingPage(),
+                  "/createDoubtPage": (context) => CreateDoubtPage(),
+                  "/answerDoubtPage": (context) => AnswerDoubtPage(),
+                  "/emailAuthPage": (context) => EmailAuthPage(),
                 },
                 theme: Styles.themeData(snapshot.data, context),
                 home: LandingPage(),

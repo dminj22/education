@@ -1,6 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:education/Provider/user_provider.dart';
 import 'package:education/Screen/Auth%20Screen/otp_page.dart';
 import 'package:education/Screen/Auth%20Screen/sign_up_page.dart';
+import 'package:education/Service/Api/api.dart';
+import 'package:education/Service/Model/email_sign_up_model.dart';
 import 'package:education/Service/Social/google.dart';
 import 'package:education/Style/Utility.dart';
 import 'package:education/Style/variables.dart';
@@ -10,6 +13,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:mobile_number_picker/mobile_number_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,6 +28,9 @@ class _LoginPageState extends State<LoginPage> {
   MobileNumberPicker mobileNumber = MobileNumberPicker();
 
   var mobileController = TextEditingController();
+
+  var emailController = TextEditingController();
+  var passController = TextEditingController();
 
   checkConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -59,6 +67,36 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  saveUser(token, userId) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('token', token);
+    pref.setString('userId', userId);
+  }
+
+  emailSignHandle(token, userId) async {
+    if (emailController.text.isNotEmpty && passController.text.isNotEmpty) {
+      try {
+        var email = emailController.text;
+        var password = passController.text;
+        EmailSignUpModel? model = await emailSignIn(email, password);
+        if (model!.status == true) {
+          saveUser(model.token, model.user!.id);
+          token = model.token;
+          userId = model.user!.id;
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/homePage', (route) => false);
+          util.showSnackBar(context, "Welcome ${model.user!.firstname}");
+        } else {
+          util.showSnackBar(context, "${model.msg}");
+        }
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      util.showSnackBar(context, "Enter Email & Password");
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -76,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var user = Provider.of<UserProvider>(context);
     return KeyboardDismisser(
       gestures: [GestureType.onTap, GestureType.onPanUpdateDownDirection],
       child: Scaffold(
@@ -84,10 +123,7 @@ class _LoginPageState extends State<LoginPage> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/signUpPage",
-                      arguments: SignUpPage(
-                        phone: mobileController.text,
-                      ));
+                  Navigator.pushNamed(context, "/emailAuthPage");
                 },
                 child: Text(signUp))
           ],
@@ -119,6 +155,20 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       child: Text("Continue"),
+                    ),
+                    EDTextField(
+                      label: Text("Email Id"),
+                      controller: emailController,
+                    ),
+                    EDTextField(
+                      label: Text("Password"),
+                      controller: passController,
+                    ),
+                    EDButton(
+                      onPressed: () {
+                        emailSignHandle(user.token, user.userId);
+                      },
+                      child: Text("Sign In"),
                     )
                   ],
                 ),
@@ -134,8 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   EDButton(
                     onPressed: () async {
-                      final LoginResult result = await FacebookAuth.instance
-                          .login();
+                      final LoginResult result =
+                          await FacebookAuth.instance.login();
                       if (result.status == LoginStatus.success) {
                         Navigator.pushNamed(context, '/homePage');
                         final AccessToken accessToken = result.accessToken!;
